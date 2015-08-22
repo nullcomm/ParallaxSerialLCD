@@ -26,11 +26,13 @@ THE SOFTWARE.
 #define ParallaxSerialLCD_h
 
 #include <Arduino.h>
+#include <SoftwareSerial.h>
 
 class ParallaxSerialLCD : public SoftwareSerial {
 public:
-   ParallaxSerialLCD ( int pin, int numRows, int numCols );
-   void setup ( boolean startEmpty=true );
+   ParallaxSerialLCD(uint8_t pin);
+   ParallaxSerialLCD(uint8_t pin, uint8_t cols, uint8_t rows);
+   void begin(uint8_t cols, uint8_t rows, boolean startEmpty = true);
 
    void display();
    void noDisplay();

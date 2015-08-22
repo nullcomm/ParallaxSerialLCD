@@ -35,18 +35,27 @@ THE SOFTWARE.
 // The 16 column display just doesn't show the last 4 columns
 #define COL_SIZE    20
 
-ParallaxSerialLCD::ParallaxSerialLCD ( int pin, int numRows, int numCols) : SoftwareSerial(pin,pin) {
+ParallaxSerialLCD::ParallaxSerialLCD(uint8_t pin) : SoftwareSerial(pin,pin){
 	_bv[PINOUT]=pin;
 	_bv[BOUNCE]=10;
-	_bv[NUMROWS]=numRows;
-	_bv[NUMCOLS]=numCols;
+	_bv[NUMROWS]=2;
+	_bv[NUMCOLS]=16;
 }
 
-void ParallaxSerialLCD::setup(boolean startEmpty ) {
+ParallaxSerialLCD::ParallaxSerialLCD ( uint8_t pin, uint8_t cols, uint8_t rows) : SoftwareSerial(pin,pin) {
+	_bv[PINOUT]=pin;
+	_bv[BOUNCE]=10;
+	_bv[NUMROWS]=rows;
+	_bv[NUMCOLS]=cols;
+}
+
+void ParallaxSerialLCD::begin(uint8_t cols, uint8_t rows, boolean startEmpty){
 	pinMode(_bv[PINOUT], OUTPUT);
 	delay(_bv[BOUNCE]);
-	begin(19200);
+	SoftwareSerial::begin(19200);
 	delay(_bv[BOUNCE]);
+	_bv[NUMROWS]=rows;
+	_bv[NUMCOLS]=cols;
 	if (startEmpty) {
 		clear();
 	}
