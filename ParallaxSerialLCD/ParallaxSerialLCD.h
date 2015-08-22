@@ -27,9 +27,9 @@ THE SOFTWARE.
 
 #include <Arduino.h>
 
-class ParallaxLCD : public SoftwareSerial {
+class ParallaxSerialLCD : public SoftwareSerial {
 public:
-   ParallaxLCD ( int pin, int numRows, int numCols );
+   ParallaxSerialLCD ( int pin, int numRows, int numCols );
    void setup ( boolean startEmpty=true );
 
    void display();

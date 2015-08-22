@@ -35,14 +35,14 @@ THE SOFTWARE.
 // The 16 column display just doesn't show the last 4 columns
 #define COL_SIZE    20
 
-ParallaxLCD::ParallaxLCD ( int pin, int numRows, int numCols) : SoftwareSerial(pin,pin) {
+ParallaxSerialLCD::ParallaxSerialLCD ( int pin, int numRows, int numCols) : SoftwareSerial(pin,pin) {
 	_bv[PINOUT]=pin;
 	_bv[BOUNCE]=10;
 	_bv[NUMROWS]=numRows;
 	_bv[NUMCOLS]=numCols;
 }
 
-void ParallaxLCD::setup(boolean startEmpty ) {
+void ParallaxSerialLCD::setup(boolean startEmpty ) {
 	pinMode(_bv[PINOUT], OUTPUT);
 	delay(_bv[BOUNCE]);
 	begin(19200);
@@ -53,59 +53,59 @@ void ParallaxLCD::setup(boolean startEmpty ) {
 	noCursor();
 }
 
-void ParallaxLCD::display () {
+void ParallaxSerialLCD::display () {
 	write(24); delay(_bv[BOUNCE]);
 }
 
-void ParallaxLCD::noDisplay () {
+void ParallaxSerialLCD::noDisplay () {
 	write(21); delay(_bv[BOUNCE]);
 }
 
-void ParallaxLCD::scrollDisplayLeft () {
+void ParallaxSerialLCD::scrollDisplayLeft () {
 	print(8); delay(_bv[BOUNCE]);
 }
 
-void ParallaxLCD::scrollDisplayRight () {
+void ParallaxSerialLCD::scrollDisplayRight () {
 	write(9); delay(_bv[BOUNCE]);
 }
 
-void ParallaxLCD::clear () {
+void ParallaxSerialLCD::clear () {
 	write(12); delay(_bv[BOUNCE]*10);
 }
 
-void ParallaxLCD::cursor () {
+void ParallaxSerialLCD::cursor () {
 	write(24); delay(_bv[BOUNCE]);
 }
 
-void ParallaxLCD::blink () {
+void ParallaxSerialLCD::blink () {
 	write(23); delay(_bv[BOUNCE]);
 }
 
-void ParallaxLCD::noBlink () {
+void ParallaxSerialLCD::noBlink () {
 	write(22); delay(_bv[BOUNCE]);
 }
 
-void ParallaxLCD::noCursor () {
+void ParallaxSerialLCD::noCursor () {
 	write(22); delay(_bv[BOUNCE]);
 }
 
-void ParallaxLCD::cursorOnChrBlink () {
+void ParallaxSerialLCD::cursorOnChrBlink () {
 	write(25); delay(_bv[BOUNCE]);
 }
 
-void ParallaxLCD::cr () {
+void ParallaxSerialLCD::cr () {
 	write(13); delay(_bv[BOUNCE]);
 }
 
-void ParallaxLCD::lf () {
+void ParallaxSerialLCD::lf () {
 	write(10); delay(_bv[BOUNCE]);
 }
 
-void ParallaxLCD::backlight () {
+void ParallaxSerialLCD::backlight () {
 	write(17); delay(_bv[BOUNCE]);
 }
 
-void ParallaxLCD::noBacklight () {
+void ParallaxSerialLCD::noBacklight () {
 	write(18); delay(_bv[BOUNCE]);
 }
 
@@ -114,7 +114,7 @@ void ParallaxLCD::noBacklight () {
  * Scale   : 215 - 219 (3rd - 7th scale)
  * Note    : 220 - 232 (A, A#, B, etc..., F#, F, G#)
  */
-void ParallaxLCD::playTone(int duration, int scale, int note) {
+void ParallaxSerialLCD::playTone(int duration, int scale, int note) {
 
 	duration = constrain(duration, 208, 214);
 	scale = constrain(scale, 215, 219);
@@ -130,7 +130,7 @@ void ParallaxLCD::playTone(int duration, int scale, int note) {
  * Set a custom character at the 'charIndex' index (0-7) with an
  *  array of bytes. Nominally, this will contain 8 bytes in it.
  */
-void ParallaxLCD::createChar(int charIndex, byte bytes[]) {
+void ParallaxSerialLCD::createChar(int charIndex, byte bytes[]) {
 
    if(sizeof(bytes)/sizeof(bytes[0]) > 8) {
       return;
@@ -152,25 +152,25 @@ void ParallaxLCD::createChar(int charIndex, byte bytes[]) {
  * Print whatever is stored in the custom character buffer.
  * If nothing is stored there, usually, nothing will print out.
  */
-void ParallaxLCD::printCustomChar(int charIndex) {
+void ParallaxSerialLCD::printCustomChar(int charIndex) {
    int index = constrain(charIndex, 0, 7);
    write(index);
    delay(_bv[BOUNCE]);
 }
 
-void ParallaxLCD::setCursor ( uint8_t col, uint8_t row )
+void ParallaxSerialLCD::setCursor ( uint8_t col, uint8_t row )
 {
 	write(WRITE_BASE + (row * COL_SIZE) + col);
 }
 
 // shortcuts
 
-void ParallaxLCD::at ( int row, int col, char v )				{ setCursor(col,row); print(v); }
-void ParallaxLCD::at ( int row, int col, const char v[] )	{ setCursor(col,row); print(v); }
-void ParallaxLCD::at ( int row, int col, String v )             { setCursor(col,row); print(v); }
-void ParallaxLCD::at ( int row, int col, uint8_t v )			{ setCursor(col,row); print(v); }
-void ParallaxLCD::at ( int row, int col, int v )				{ setCursor(col,row); print(v); }
-void ParallaxLCD::at ( int row, int col, unsigned int v )	{ setCursor(col,row); print(v); }
-void ParallaxLCD::at ( int row, int col, long v )				{ setCursor(col,row); print(v); }
-void ParallaxLCD::at ( int row, int col, unsigned long v )	{ setCursor(col,row); print(v); }
-void ParallaxLCD::at ( int row, int col, long v, int t )		{ setCursor(col,row); print(v,t); }
+void ParallaxSerialLCD::at ( int row, int col, char v )				{ setCursor(col,row); print(v); }
+void ParallaxSerialLCD::at ( int row, int col, const char v[] )	{ setCursor(col,row); print(v); }
+void ParallaxSerialLCD::at ( int row, int col, String v )             { setCursor(col,row); print(v); }
+void ParallaxSerialLCD::at ( int row, int col, uint8_t v )			{ setCursor(col,row); print(v); }
+void ParallaxSerialLCD::at ( int row, int col, int v )				{ setCursor(col,row); print(v); }
+void ParallaxSerialLCD::at ( int row, int col, unsigned int v )	{ setCursor(col,row); print(v); }
+void ParallaxSerialLCD::at ( int row, int col, long v )				{ setCursor(col,row); print(v); }
+void ParallaxSerialLCD::at ( int row, int col, unsigned long v )	{ setCursor(col,row); print(v); }
+void ParallaxSerialLCD::at ( int row, int col, long v, int t )		{ setCursor(col,row); print(v,t); }
